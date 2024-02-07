@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions 
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+   xmlns:tns="http://www.boe.es/ServicioSubastas/" 
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+   name="ServicioSubastas" 
+   targetNamespace="http://www.boe.es/ServicioSubastas/">
+
+   <wsdl:documentation>WSDL del servicio WEB de gesti&#xF3;n de subastas . Similar al publicado por BOE, pero la entrada en lugar de ser una cadena de Base 64 es una cadena conteniendo XML, y codificada en UTF-8</wsdl:documentation>
+
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://www.boe.es/ServicioSubastas/">
+
+         <xsd:element name="Envio" type="tns:Envio">
+            <xsd:annotation>
+               <xsd:documentation>Entrada del servicio de env&#xED;o de la subasta</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:simpleType name="Envio">
+            <xsd:annotation>
+               <xsd:documentation>XML en cadena</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:element name="RespuestaEnvio" type="tns:RespuestaEnvio">
+            <xsd:annotation>
+               <xsd:documentation>Respuesta del servicio de env&#xF3; de subasta. Indicar&#xE1; el resultado de la operaci&#xF3;n</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:complexType name="RespuestaEnvio">
+            <xsd:all>
+               <xsd:element name="fecha" type="tns:Fecha" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="resultado" type="tns:Resultado" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="id_subasta" type="tns:IdSubasta"   maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="anuncio_boe_liquidacion" type="tns:LiquidacionAnuncio" maxOccurs="1"   minOccurs="0"></xsd:element>
+               <xsd:element name="anuncio_boe_borrador_texto" type="tns:BorradorTextoAnuncio" maxOccurs="1"   minOccurs="0"></xsd:element>
+               <xsd:element name="anuncio_boe_id_791_pago_tasa" type="tns:Id791Anuncio" maxOccurs="1"   minOccurs="0"></xsd:element>
+               <xsd:element name="anuncio_boe_importe_tasa" type="tns:ImporteAnuncio" maxOccurs="1"   minOccurs="0"></xsd:element>
+               <xsd:element name="estado" type="tns:EstadoSubasta" maxOccurs="1"   minOccurs="0"></xsd:element>
+               <xsd:element name="url_subasta" type="tns:URLSubasta" maxOccurs="1"   minOccurs="0"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:element name="Estado" type="tns:Estado">
+            <xsd:annotation>
+               <xsd:documentation>Entrada del servicio de cambio de estado de la subasta</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:complexType name="Estado">
+            <xsd:all>
+               <xsd:element name="id_subasta" type="tns:IdSubasta" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="id_lote" type="tns:IdLote" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="estado" type="tns:EstadoSubasta" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="fecha_reanudacion" type="tns:Fecha" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="observaciones" type="tns:Observaciones" maxOccurs="1" minOccurs="0"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:element name="RespuestaEstado" type="tns:RespuestaEstado">
+            <xsd:annotation>
+               <xsd:documentation>Respuesta del servicio de cambio de estado de subasta. Indicar&#xE1; el resultado de la operaci&#xF3;n</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:complexType name="RespuestaEstado">
+            <xsd:all>
+               <xsd:element name="fecha" type="tns:Fecha" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="resultado" type="tns:Resultado" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="id_subasta" type="tns:IdSubasta"   maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="id_lote" type="tns:IdLote"   maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="estado" type="tns:EstadoSubasta" maxOccurs="1"   minOccurs="0"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:element name="PosturaFinal" type="tns:PosturaFinal">
+            <xsd:annotation>
+               <xsd:documentation>Entrada del servicio de petici&#xF3;n de una postura final</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:complexType name="PosturaFinal">
+            <xsd:all>
+               <xsd:element name="id_subasta" type="tns:IdSubasta" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="id_lote" type="tns:IdLote" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="posicion" type="tns:Posicion" maxOccurs="1" minOccurs="1"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:element name="RespuestaPosturaFinal"  type="tns:RespuestaPosturaFinal">
+            <xsd:annotation>
+               <xsd:documentation>Respuesta del servicio de petici&#xF3;n de una postura final. Indicar&#xE1; el resultado de la operaci&#xF3;n</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:complexType name="RespuestaPosturaFinal">
+            <xsd:all>
+               <xsd:element name="fecha" type="tns:Fecha" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="resultado" type="tns:Resultado" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="postura" type="tns:Postura" maxOccurs="1" minOccurs="1"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:simpleType name="Fecha">
+            <xsd:annotation>
+               <xsd:documentation>Fecha en formato AAAA-MM-DDTHH:MM:SS</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:complexType name="Resultado">
+            <xsd:annotation>
+               <xsd:documentation>Resultado de una operaci&#xF3;n</xsd:documentation>
+            </xsd:annotation>
+            <xsd:sequence>
+               <xsd:element name="codigo" type="xsd:string"></xsd:element>
+               <xsd:element name="descripcion" type="xsd:string"></xsd:element>
+            </xsd:sequence>
+         </xsd:complexType>
+
+         <xsd:simpleType name="IdSubasta">
+            <xsd:annotation>
+               <xsd:documentation>Identificador de la subasta en el Portal de Subastas</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="LiquidacionAnuncio">
+            <xsd:annotation>
+               <xsd:documentation>Localizaci&#xF3;n de la liquidaci&#xF3;n para el pago del anuncio a publicar en BOE</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="BorradorTextoAnuncio">
+            <xsd:annotation>
+               <xsd:documentation>Localizaci&#xF3;n del borrador del texto del anuncio a publicar en BOE</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Id791Anuncio">
+            <xsd:annotation>
+               <xsd:documentation>C&#xF3;digo del modelo 791 para el pago telem&#xE1;tico de la tasa del anuncio a publicar en BOE</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="ImporteAnuncio">
+            <xsd:annotation>
+               <xsd:documentation>Importe en c&#xE9;ntimos de euro de la tasa del anuncio a publicar en BOE</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="EstadoSubasta">
+            <xsd:annotation>
+               <xsd:documentation>Estado de la Subasta</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="URLSubasta">
+            <xsd:annotation>
+               <xsd:documentation>URL de la subasta en el Portal de Subastas</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="IdLote">
+            <xsd:annotation>
+               <xsd:documentation>Identificador de un lote en el Portal de Subastas</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Observaciones">
+            <xsd:annotation>
+               <xsd:documentation>Observaciones que el gestor proporciona sobre la suspensi&#xF3;n o la cancelaci&#xF3;n de la subasta.</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Posicion">
+            <xsd:annotation>
+               <xsd:documentation>Posici&#xF3;n a la conclusi&#xF3;n de la subasta que ocupa el postor cuyos datos se quieren recuperar</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:complexType name="Postura">
+            <xsd:all>
+               <xsd:element name="id_subasta" type="tns:IdSubasta" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="id_lote" type="tns:IdLote" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="posicion" type="tns:Posicion" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="total_posturas_finales" type="tns:TotalPosturasFinales" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="consignacion" type="tns:Consignacion" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="nrc" type="tns:NRC" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="iban" type="tns:IBAN" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="importe" type="tns:Importe" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="reserva" type="tns:Reserva" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="rol" type="tns:Rol" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="certificacion" type="tns:Certificacion" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="postor" type="tns:Postor" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="postor2" type="tns:Postor" maxOccurs="1" minOccurs="0"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:simpleType name="TotalPosturasFinales">
+            <xsd:annotation>
+               <xsd:documentation>N&#xFA;mero total de postores candidatos a adjudicarse el bien o el lote subastado (incluye el ganador y los postores que hicieron reserva de postura)</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Consignacion">
+            <xsd:annotation>
+               <xsd:documentation>Importe del dep&#xF3;sito consignado para participar en la subasta</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="NRC">
+            <xsd:annotation>
+               <xsd:documentation>NRC obtenido al consignar el dep&#xF3;sito para participar en la subasta</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="IBAN">
+            <xsd:annotation>
+               <xsd:documentation>IBAN de la cuenta corriente utilizada para consignar el dep&#xF3;sito</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Importe">
+            <xsd:annotation>
+               <xsd:documentation>Importe de la puja en c&#xE9;ntimos de euro</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Reserva">
+            <xsd:annotation>
+               <xsd:documentation>Indica si la postura se hizo con reserva ('S') o no ('N')</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Rol">
+            <xsd:annotation>
+               <xsd:documentation>Indica la forma de actuaci&#xF3;n del postor en la subasta</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Certificacion">
+            <xsd:annotation>
+               <xsd:documentation>URL donde se puede acceder al certificado de mejor postura o postura con reserva</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:complexType name="Postor">
+            <xsd:all>
+               <xsd:element name="nif" type="tns:NIF" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="nombre" type="tns:Nombre" maxOccurs="1" minOccurs="1"></xsd:element>
+               <xsd:element name="direccion" type="tns:Direccion" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="codpostal" type="tns:CodPostal" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="localidad" type="tns:Localidad" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="provincia" type="tns:Provincia" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="pais" type="tns:Pais" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="telefono" type="tns:Telefono" maxOccurs="1" minOccurs="0"></xsd:element>
+               <xsd:element name="email" type="tns:Email" maxOccurs="1" minOccurs="0"></xsd:element>
+            </xsd:all>
+         </xsd:complexType>
+
+         <xsd:simpleType name="NIF">
+            <xsd:annotation>
+               <xsd:documentation>NIF del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Nombre">
+            <xsd:annotation>
+               <xsd:documentation>Nombre y apellidos del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Direccion">
+            <xsd:annotation>
+               <xsd:documentation>Direcci&#xF3;n del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="CodPostal">
+            <xsd:annotation>
+               <xsd:documentation>C&#xF3;digo postal del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Localidad">
+            <xsd:annotation>
+               <xsd:documentation>Localidad del domicilio del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Provincia">
+            <xsd:annotation>
+               <xsd:documentation>Provincia del domicilio del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Telefono">
+            <xsd:annotation>
+               <xsd:documentation>Tel&#xE9;fono del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Email">
+            <xsd:annotation>
+               <xsd:documentation>Correo electr&#xF3;nico del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="Pais">
+            <xsd:annotation>
+               <xsd:documentation>Pa&#xED;s del domicilio del postor</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+         <xsd:simpleType name="IdBien">
+            <xsd:annotation>
+               <xsd:documentation>Identificador de un bien en el Portal de Subastas</xsd:documentation>
+            </xsd:annotation>
+            <xsd:restriction base="xsd:string"></xsd:restriction>
+         </xsd:simpleType>
+
+      </xsd:schema>
+   </wsdl:types>
+
+   <wsdl:message name="envioSubastaRequest">
+      <wsdl:part element="tns:Envio" name="Envio"/>
+   </wsdl:message>
+
+   <wsdl:message name="envioSubastaResponse">
+      <wsdl:part element="tns:RespuestaEnvio" name="RespuestaEnvio"/>
+   </wsdl:message>
+
+   <wsdl:message name="cambioEstadoSubastaRequest">
+      <wsdl:part element="tns:Estado" name="Estado"/>
+   </wsdl:message>
+
+   <wsdl:message name="cambioEstadoSubastaResponse">
+      <wsdl:part element="tns:RespuestaEstado" name="RespuestaEstado"/>
+   </wsdl:message>
+
+   <wsdl:message name="posturaFinalRequest">
+      <wsdl:part element="tns:PosturaFinal" name="PosturaFinal"/>
+   </wsdl:message>
+
+   <wsdl:message name="posturaFinalResponse">
+      <wsdl:part element="tns:RespuestaPosturaFinal" name="RespuestaPosturaFinal"/>
+   </wsdl:message>
+
+   <wsdl:portType name="ServicioSubastas">
+      <wsdl:operation name="envioSubasta">
+         <wsdl:input message="tns:envioSubastaRequest"/>
+         <wsdl:output message="tns:envioSubastaResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="cambioEstadoSubasta">
+         <wsdl:input message="tns:cambioEstadoSubastaRequest"></wsdl:input>
+         <wsdl:output message="tns:cambioEstadoSubastaResponse"></wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="posturaFinal">
+         <wsdl:input message="tns:posturaFinalRequest"></wsdl:input>
+         <wsdl:output message="tns:posturaFinalResponse"></wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="ServicioSubastasSOAP" type="tns:ServicioSubastas">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+      <wsdl:operation name="envioSubasta">
+         <soap:operation soapAction="http://www.boe.es/ServicioSubastas/envioSubasta" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="cambioEstadoSubasta">
+         <soap:operation soapAction="http://www.boe.es/ServicioSubastas/cambioEstadoSubasta" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="posturaFinal">
+         <soap:operation soapAction="http://www.boe.es/ServicioSubastas/posturaFinal" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ServicioSubastasBOE">
+      <wsdl:port binding="tns:ServicioSubastasSOAP" name="ServicioSubastasPort">
+         <soap:address location="http://bus:7101/WSBOE/ProxyServices/PXGestionSubastas"/>
+      </wsdl:port>
+   </wsdl:service>
+
+</wsdl:definitions>

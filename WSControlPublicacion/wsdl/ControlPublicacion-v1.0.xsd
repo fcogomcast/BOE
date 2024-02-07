@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:tns="http://www.boe.es/ControlPublicacion"
+        targetNamespace="http://www.boe.es/ControlPublicacion" 
+        elementFormDefault="qualified">
+
+    <element name="publicacion" type="tns:Publicacion">
+    	<annotation>
+    		<documentation>Informacion de la publicacion en una fecha de un conjunto de anuncios de notificacion enviados a la AEBOE por un órgano emisor autorizado</documentation>
+    	</annotation></element>
+    
+    <complexType name="Publicacion">
+        <annotation>
+        	<documentation>Informacion de publicacion de anuncios</documentation>
+        </annotation>
+        <sequence>
+    		<element name="fecha" type="tns:Fecha"></element>
+    		<element name="anuncios" type="tns:ListaAnuncios"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Fecha">
+        <annotation>
+        	<documentation>Fecha de la publicacion de los anuncios. Formato AAAA-MM-DD</documentation>
+        </annotation>
+        <simpleContent>
+    		<extension base="string">
+    			<attribute name="nbo" type="string">
+    				<annotation>
+    					<documentation>Numero de boletin en el que se han publicado los anuncios</documentation>
+    				</annotation></attribute>
+    		</extension>
+    	</simpleContent>
+    </complexType>
+
+    <complexType name="ListaAnuncios">
+        <annotation>
+        	<documentation>Lista con todos los anuncios publicados en el boletin correspodiente a la fecha</documentation>
+        </annotation>
+        <sequence>
+    		<element name="anuncio" type="tns:Anuncio"
+    			maxOccurs="unbounded" minOccurs="1">
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Anuncio">
+        <annotation>
+        	<documentation>Informacion de un anuncio</documentation>
+        </annotation>
+        <sequence>
+    		<element name="idEnvio" type="string">
+    			<annotation>
+    				<documentation>Identificador del envio en el que se ha incluido el anuncio</documentation>
+    			</annotation></element>
+    		<element name="idBoe" type="string">
+    			<annotation>
+    				<documentation>Identificador del anuncio dentro del sistema de informacion de la AEBOE</documentation>
+    			</annotation></element>
+    		<element name="cve" type="string">
+    			<annotation>
+    				<documentation>Codigo de Verificacion Electronica.</documentation>
+    			</annotation></element>
+    		<element name="urlBoe" type="tns:UrlBoe">
+    			<annotation>
+    				<documentation>Url para localizar el anuncio en la sede de la AEBOE</documentation>
+    			</annotation></element>
+    	</sequence>
+    	<attribute name="id" type="string">
+    		<annotation>
+    			<documentation>Identificador del anuncio dentro del sistema de informacion del organo emisor.</documentation>
+    		</annotation></attribute>
+    </complexType>
+
+    <complexType name="UrlBoe">
+        <annotation>
+        	<documentation>Url para localizar un anuncio</documentation>
+        </annotation>
+        <simpleContent>
+    		<extension base="anyURI">
+    			<attribute name="szBytes" type="int">
+    				<annotation>
+    					<documentation>Tamaño del pdf del anuncio</documentation>
+    				</annotation></attribute>
+    		</extension>
+    	</simpleContent>
+    </complexType>
+</schema>

@@ -1,0 +1,53 @@
+plugins {
+    id 'war'
+    id 'java'
+}
+
+repositories {
+    jcenter()
+}
+
+// Configuraci�n de compilaci�n y ejecuci�n
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Dependencias del proyecto
+dependencies {
+    // A�ade las dependencias que necesites desde la carpeta 'webcontent/lib'
+    implementation fileTree(dir: 'webcontent/WEB-INF/lib', include: ['*.jar'])
+    //implementation fileTree(dir: 'webcontent/WEB-INF', include: ['*.xml'])
+    // implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    // A�ade otras dependencias aqu�
+}
+// Ruta de las clases Java a compilar
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+}
+
+// Tareas de compilaci�n y empaquetado
+tasks.withType(JavaCompile) {
+    options.encoding = 'Cp1252'
+}
+
+// Configuraci�n espec�fica para el plugin 'war'
+war {
+    archiveFileName = "$buildDir/target/WSGestionSubastasBOE.war" // Cambia esto por el nombre que desees para tu archivo WAR
+
+    // Agrega archivo HandleChange.xml
+    from('src/es/boe/subastas') {
+        include '**/*.xml'
+        into 'WEB-INF/classes/es/boe/subastas'
+    }
+
+    // Agrega solo los archivos XML de la carpeta WEB-INF
+    webInf {
+        from 'webcontent/WEB-INF', {
+            include '*.xml'
+        }
+    }
+}
+

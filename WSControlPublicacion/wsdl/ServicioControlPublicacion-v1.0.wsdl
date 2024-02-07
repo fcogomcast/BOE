@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.boe.es/ServicioControlPublicacion" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	name="ServicioControlPublicacion"
+	targetNamespace="http://www.boe.es/ServicioControlPublicacion">
+	
+	<wsdl:documentation>WSDL del servicio WEB de control de publicacion de los anuncios de notificacion que han sido publicados en en BOE
+	</wsdl:documentation>
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.boe.es/ServicioControlPublicacion">
+			<xsd:element name="Publicacion" type="tns:Publicacion">
+				<xsd:annotation>
+					<xsd:documentation>Entrada del servicio. Informacion de los anuncios publicados</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Respuesta" type="tns:Respuesta">
+				<xsd:annotation>
+					<xsd:documentation>Respuesta del servicio. Indicara el resultado de la operacion.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+				
+			<xsd:simpleType name="Publicacion">
+                <xsd:annotation>
+                	<xsd:documentation>XML codificado en Base 64.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string"></xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="Respuesta">
+                <xsd:annotation>
+                	<xsd:documentation>Resultado de la operacion</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+					<xsd:element name="codigo" type="xsd:string"></xsd:element>
+					<xsd:element name="descripcion" type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="controlPublicacionRequest">
+		<wsdl:part element="tns:Publicacion" name="Publicacion" />
+	</wsdl:message>
+	<wsdl:message name="controlPublicacionResponse">
+		<wsdl:part element="tns:Respuesta" name="Respuesta" />
+	</wsdl:message>
+
+	<wsdl:portType name="ServicioControlPublicacion">
+		<wsdl:operation name="controlPublicacion">
+			<wsdl:documentation>Operacion que deben implementar los organos emisores de anuncios para recibir informacion acerca de la publicacion de sus anuncio</wsdl:documentation>
+			<wsdl:input message="tns:controlPublicacionRequest" />
+			<wsdl:output message="tns:controlPublicacionResponse" />		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ServicioControlPublicacionSOAP" type="tns:ServicioControlPublicacion">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="controlPublicacion">
+			<soap:operation	soapAction="http://www.boe.es/ServicioControlPublicacion/controlPublicacion" />
+				<wsdl:input>
+					<soap:body use="literal" />
+				</wsdl:input>
+				<wsdl:output>
+					<soap:body use="literal" />
+				</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ServicioControlPublicacionBOE">
+		<wsdl:documentation>La url del servicio debe indicarse en el XML de envio de los anuncios dentro del elemento &lt;urlSw&gt; en el apartado &lt;metadatos</wsdl:documentation>
+		<wsdl:port binding="tns:ServicioControlPublicacionSOAP" name="ServicioControlPublicacionPublicacionPort">
+			<soap:address location="http://www.tributasenasturias.es/publicacion" />
+		</wsdl:port>
+	</wsdl:service>
+
+
+</wsdl:definitions>
